@@ -1,0 +1,35 @@
+---
+
+# Copyright 2016 David Stanek <dstanek@dstanek.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+- name: Update keystone config file
+  ini_file:
+    dest: /etc/keystone/keystone.conf
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    backup: yes
+  with_items:
+    - {section: auth, option: methods, value: "external,password,token,oauth1,saml2"}
+    - {section: auth, option: saml2, value: "keystone.auth.plugins.mapped.Mapped"}
+    - {section: federation, option: remote_id_attribute, value: "Shib-Identity-Provider"}
+    - {section: federation, option: trusted_dashboard, value: "http://{{ keystone_sp_dashboard_hostname}}/dashboard/auth/websso/"}
+  notify:
+    - restart apache
+
+- name: Ensure the SSO callback template exists
+  copy:
+    src: sso_callback_template.html
+    dest: /etc/keystone/sso_callback_template.html

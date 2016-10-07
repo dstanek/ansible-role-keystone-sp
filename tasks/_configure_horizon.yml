@@ -1,0 +1,54 @@
+---
+
+# Copyright 2016 David Stanek <dstanek@dstanek.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+- name: Ensure horizon WebSSO is enabled
+  lineinfile:
+    dest: /opt/stack/horizon/openstack_dashboard/local/local_settings.py
+    line: WEBSSO_ENABLED = True
+    insertafter: "^#WEBSSO_ENABLED = "
+    state: present
+  notify:
+    - restart apache
+
+- name: Ensure horizon WebSSO choices
+  blockinfile:
+    dest: /opt/stack/horizon/openstack_dashboard/local/local_settings.py
+    insertbefore: "^#WEBSSO_CHOICES"
+    block: |
+      WEBSSO_CHOICES = (
+          ("credentials", _("Keystone Credentials")),
+          ("saml2", _("Testshib SAML2")),
+      )
+  notify:
+    - restart apache
+
+- name: Ensure horizon WebSSO initial choice is set
+  lineinfile:
+    dest: /opt/stack/horizon/openstack_dashboard/local/local_settings.py
+    line: WEBSSO_INITIAL_CHOICE = 'saml2'
+    insertafter: "^#WEBSSO_INITIAL_CHOICE = "
+    state: present
+  notify:
+    - restart apache
+
+- name: Ensure horizon multi domain support
+  lineinfile:
+    dest: /opt/stack/horizon/openstack_dashboard/local/local_settings.py
+    line: OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+    insertafter: "^#OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = False"
+    state: present
+  notify:
+    - restart apache

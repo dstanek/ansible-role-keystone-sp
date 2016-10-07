@@ -1,0 +1,5 @@
+---
+
+keystone_sp_apache_sites_conf_root: /etc/apache2/sites-available
+keystone_sp_shib_pkg: libapache2-mod-shib2
+keystone_sp_apache_name: apache2

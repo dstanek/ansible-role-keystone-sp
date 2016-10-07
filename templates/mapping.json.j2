@@ -1,0 +1,80 @@
+[
+    {
+        "local": [
+            {
+                "user": {
+                    "name": "testshib:{0}",
+                    "domain": {
+                        "name": "finance"
+                    }
+                },
+                "group": {
+                    "id": "{{ accountant['group']['id'] }}"
+                }
+            }
+        ],
+        "remote": [
+            {
+                "type": "REMOTE_USER",
+                "any_one_of": [
+                    "myself@testshib.org"
+                ]
+            },
+            {
+                "type": "REMOTE_USER"
+            }
+        ]
+    },
+    {
+        "local": [
+            {
+                "user": {
+                    "name": "testshib:{0}",
+                    "domain": {
+                        "name": "finance"
+                    }
+                },
+                "group": {
+                    "id": "{{ finance_admins['group']['id'] }}"
+                }
+            }
+        ],
+        "remote": [
+            {
+                "type": "REMOTE_USER",
+                "any_one_of": [
+                    "alterego@testshib.org"
+                ]
+            },
+            {
+                "type": "REMOTE_USER"
+            }
+        ]
+    },
+    {
+        "local": [
+            {
+                "user": {
+                    "name": "testshib:{0}",
+                    "domain": {
+                        "name": "finance"
+                    }
+                },
+                "group": {
+                    "id": "{{ admins['group']['id'] }}"
+                }
+            }
+        ],
+        "remote": [
+            {
+                "type": "REMOTE_USER",
+                "any_one_of": [
+                    "superego@testshib.org"
+                ]
+            },
+            {
+                "type": "REMOTE_USER"
+            }
+        ]
+    }
+]

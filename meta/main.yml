@@ -1,0 +1,16 @@
+galaxy_info:
+  author: David Stanek
+  description: A role to setup keystone as a service provider
+  license: Apache
+
+  min_ansible_version: 2.1
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+
+  galaxy_tags:
+    - openstack
+
+dependencies: []
