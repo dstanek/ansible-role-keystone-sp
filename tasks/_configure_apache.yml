@@ -38,7 +38,6 @@
             Require valid-user
         </LocationMatch>
 
-       # k2k
         <LocationMatch /identity/v3/OS-FEDERATION/identity_providers/.*?/protocols/saml2/auth>
             ShibRequestSetting requireSession 1
             AuthType shibboleth
